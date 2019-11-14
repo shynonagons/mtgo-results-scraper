@@ -21,7 +21,7 @@ app.get("/api/scrape", (req, res) => {
       return res.end();
     }
   } catch(e) {
-    console.log(`File not found. Heading to scrapertown...`)
+    console.log(`File not found. Going a'scraping now...`)
   }
   let url = `${mtgoUrlBase}/${format}-${type}-${date}#decklists`;
   request(url, (err, re, html) => {
@@ -84,6 +84,7 @@ app.get("/api/scrape", (req, res) => {
           response.push(deck);
         });
       if (response.length)
+        fs.mkdirSync('data', { recursive: true });
         fs.writeFile(
           `./data/${format}-${type}-${date}.json`,
           JSON.stringify(response, null, 4),
