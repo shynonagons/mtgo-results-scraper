@@ -14,12 +14,15 @@ app.get("/api/hello", (req, res) => {
 
 app.get("/api/scrape", (req, res) => {
   const { date, format, type = "league" } = req.query;
-  const jsonData = require(`./data/${format}-${type}-${date}.json`);
-  if (jsonData) {
-    res.send(jsonData);
-    return res.end();
+  try {
+    const jsonData = require(`./data/${format}-${type}-${date}.json`);
+    if (jsonData) {
+      res.send(jsonData);
+      return res.end();
+    }
+  } catch(e) {
+    console.log(`File not found. Heading to scrapertown...`)
   }
-  console.log("going a'scraping now...");
   let url = `${mtgoUrlBase}/${format}-${type}-${date}#decklists`;
   request(url, (err, re, html) => {
     if (!err) {
