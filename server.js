@@ -102,14 +102,6 @@ app.get("/api/scrape", (req, res) => {
           console.log("File successfully written!");
         }
       );
-      slack.send({
-        text: `
-        New Scraper Search!
-        format: ${format},
-        type: ${type},
-        date: ${date}
-        `
-      });
       res.send(response);
       res.end();
     }
